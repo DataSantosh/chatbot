@@ -1,0 +1,9 @@
+
+
+[
+    "Damage or broken", 
+    "Does not match description", 
+    "Does not like the item", 
+    "Poor value", 
+    "Arrived late"
+]
