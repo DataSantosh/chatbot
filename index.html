@@ -8,6 +8,45 @@
     </script>
     <style>
     /* Set additional styling options for the columns*/
+
+    html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 16px;
+            font-family: Segoe UI;
+            line-height: 20px;
+            color: whitesmoke;
+            display: table-cell;
+            padding: 13px 0px 0px 20px;
+        }
+
+        #heading {
+            background-color: black;
+            height: 50px;
+        }
+
+        .main {
+            margin: 18px;
+            border-radius: 4px;
+        }
+
+        div[role="form"]{
+            background-color: black;
+        }
+
+        #webchat {
+            position: fixed;
+            height: calc(100% - 50px);
+            width: 100%;
+            top: 50px;
+            overflow: hidden;
+        }
     .row{
          display: flex;
         width: 100%;
@@ -65,7 +104,14 @@
                 const styleOptions = {
         
                    // Add styleOptions to customize Web Chat canvas
-                   hideUploadButton: true
+                    hideUploadButton: true,
+                    botAvatarInitials: 'BT',
+                    accent: '#00809d',
+                    botAvatarBackgroundColor: "#FFFFFF",
+                    botAvatarImage: 'https://learn.microsoft.com/azure/bot-service/v4sdk/media/logo_bot.svg',
+                    userAvatarImage: 'https://avatars.githubusercontent.com/u/661465',
+                    backgroundColor: 'white'
+        
                 };
         
         
