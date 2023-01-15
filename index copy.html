@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+ <head>
+
+    <script>
+        // location.reload(true);
+        // document.getElementById('mychatbot').src += '';
+        document.getElementById('mychatbot').contentWindow.location.reload(true);
+    </script>
+    <style>
+    /* Set additional styling options for the columns*/
+
+    html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 16px;
+            font-family: Segoe UI;
+            line-height: 20px;
+            color: whitesmoke;
+            display: table-cell;
+            padding: 13px 0px 0px 20px;
+        }
+
+        #heading {
+            background-color: rgb(5, 11, 88);
+            height: 50px;
+        }
+
+        .main {
+            margin: 18px;
+            border-radius: 4px;
+        }
+
+        div[role="form"]{
+            background-color: black;
+        }
+
+        #webchat {
+            position: fixed;
+            height: calc(100% - 50px);
+            width: 100%;
+            top: 50px;
+            overflow: hidden;
+        }
+    .row{
+         display: flex;
+        width: 100%;
+        }
+        h4, p {
+    white-space: break-spaces;
+}   
+
+    .column {
+    float: left;
+    display: inline;
+    padding: 15px;
+    }
+
+    .left {
+    width: 60%;
+    }
+
+    
+    
+    .right {
+    width: 40%;
+    }
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+
+    .heading{
+        font-weight: bolder;
+    }
+    </style>
+ </head>
+ <body style="background-color:#EFEFEF;">
+    <div class="row">
+        <div class="column left">
+            <h4>Below is the Sales table created in SharePoint Online</h4>
+            
+        <img src="Sales.JPG" alt="Sales Table from SharePoint">
+
+        </div>
+        <div class="column right" >
+            <div>
+                <div id="heading">
+                    <!-- Change the h1 text to change the bot name -->    
+                    <h1>Return Inquiry Bot</h1>
+                </div>
+                <div id="webchat" role="main"></div>
+            </div>    
+        
+          <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+        
+          <script>
+                const styleOptions = {
+        
+                   // Add styleOptions to customize Web Chat canvas
+                    hideUploadButton: true,
+                    botAvatarInitials: 'BT',
+                    accent: '#00809d',
+                    botAvatarBackgroundColor: "#FFFFFF",
+                    botAvatarImage: 'https://learn.microsoft.com/azure/bot-service/v4sdk/media/logo_bot.svg',
+                    userAvatarImage: 'https://avatars.githubusercontent.com/u/661465',
+                    backgroundColor: 'lightgrey',
+                    bubbleBackground: 'White',
+                    bubbleTextColor: 'Red'
+        
+                };
+        
+        
+                var theURL = "https://defaultc859da18635a43d1994375c39cb9b6.ab.environment.api.powerplatform.com/powervirtualagents/bots/35493e8e-4669-496b-a971-277596d5e955/directline/token?api-version=2022-03-01-preview";
+        
+                var environmentEndPoint = theURL.slice(0,theURL.indexOf('/powervirtualagents'));
+                var apiVersion = theURL.slice(theURL.indexOf('api-version')).split('=')[1];
+                var regionalChannelSettingsURL = `${environmentEndPoint}/powervirtualagents/regionalchannelsettings?api-version=${apiVersion}`; 
+        
+                var directline;
+                    fetch(regionalChannelSettingsURL)
+                        .then((response) => {
+                            return response.json();
+                            })
+                        .then((data) => {
+                            directline = data.channelUrlsById.directline;
+                            })
+                        .catch(err => console.error("An error occurred: " + err));
+        
+              fetch(theURL)
+                    .then(response => response.json())
+                    .then(conversationInfo => {
+                        window.WebChat.renderWebChat(
+                            {
+                                directLine: window.WebChat.createDirectLine({
+                                    token: conversationInfo.token,
+                                }),
+                                styleOptions
+                            },
+                            document.getElementById('webchat')
+                        );
+                    })
+                    .catch(err => console.error("An error occurred: " + err));
+        
+            </script>
+            <!-- <div style="padding-top:65px"></div> -->
+            <!-- <iframe id="mychatbot" src="https://web.powerva.microsoft.com/environments/Default-c859da18-635a-43d1-9943-75c39cb9b6ab/bots/new_bot_35493e8e4669496ba971277596d5e955/webchat" frameborder="0" style="width: 400px; height: 550px;"></iframe>             -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="column" style="background-color:#fab4b4;">
+            <p class = "heading">Step 1: Start the conversation</p>
+            <p> Type a greeting text</p>
+            <p> Chatbot will ask you to enter email address</p>
+
+        </div>
+        <div class="column" style="background-color:#b6d7f7;">
+            <p class = "heading">Step 2: Ask for invoice no</p>
+            <p> Type any phrase with "return" word </p>
+            <p> Chatbot will ask you for Invoice no</p>
+        </div>
+        <div class="column" style="background-color:#fab4b4;">
+            <p class = "heading">Step 3: validate the Invoice no</p>
+            <p> The Chatbot will search the invoice no in the Sales table</p>
+            <p> Chatbot will show the invoice if found and ask for valid invoice no if not found</p>
+        </div>
+        <div class="column" style="background-color:#b6d7f7;">
+            <p class = "heading">Step 4: Start the return process</p>
+            <p> The Chatbot will ask for the product details for returning</p>
+            <p> After finishing the return process the Chatbot will send a survey email to customer</p>
+        </div>
+    </div>
+ </body>
+</html>
+
+
