@@ -51,8 +51,58 @@
 
         </div>
         <div class="column right" >
-            <div style="padding-top:65px"></div>
-            <iframe id="mychatbot" src="https://web.powerva.microsoft.com/environments/Default-c859da18-635a-43d1-9943-75c39cb9b6ab/bots/new_bot_35493e8e4669496ba971277596d5e955/webchat" frameborder="0" style="width: 400px; height: 550px;"></iframe>            
+            <div>
+                <div id="heading">
+                    <!-- Change the h1 text to change the bot name -->    
+                    <h1>Contoso Bot Name</h1>
+                </div>
+                <div id="webchat" role="main"></div>
+            </div>    
+        
+          <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+        
+          <script>
+                const styleOptions = {
+        
+                   // Add styleOptions to customize Web Chat canvas
+                   hideUploadButton: true
+                };
+        
+        
+                var theURL = "https://defaultc859da18635a43d1994375c39cb9b6.ab.environment.api.powerplatform.com/powervirtualagents/bots/35493e8e-4669-496b-a971-277596d5e955/directline/token?api-version=2022-03-01-preview";
+        
+                var environmentEndPoint = theURL.slice(0,theURL.indexOf('/powervirtualagents'));
+                var apiVersion = theURL.slice(theURL.indexOf('api-version')).split('=')[1];
+                var regionalChannelSettingsURL = `${environmentEndPoint}/powervirtualagents/regionalchannelsettings?api-version=${apiVersion}`; 
+        
+                var directline;
+                    fetch(regionalChannelSettingsURL)
+                        .then((response) => {
+                            return response.json();
+                            })
+                        .then((data) => {
+                            directline = data.channelUrlsById.directline;
+                            })
+                        .catch(err => console.error("An error occurred: " + err));
+        
+              fetch(theURL)
+                    .then(response => response.json())
+                    .then(conversationInfo => {
+                        window.WebChat.renderWebChat(
+                            {
+                                directLine: window.WebChat.createDirectLine({
+                                    token: conversationInfo.token,
+                                }),
+                                styleOptions
+                            },
+                            document.getElementById('webchat')
+                        );
+                    })
+                    .catch(err => console.error("An error occurred: " + err));
+        
+            </script>
+            <!-- <div style="padding-top:65px"></div> -->
+            <!-- <iframe id="mychatbot" src="https://web.powerva.microsoft.com/environments/Default-c859da18-635a-43d1-9943-75c39cb9b6ab/bots/new_bot_35493e8e4669496ba971277596d5e955/webchat" frameborder="0" style="width: 400px; height: 550px;"></iframe>             -->
         </div>
     </div>
     <div class="row">
